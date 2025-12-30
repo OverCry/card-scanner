@@ -1,17 +1,19 @@
 # [Card Scanner](https://github.com/OverCry/card-scanner)
 
-A [project](https://github.com/OverCry/card-scanner) to try out TenserFlow.js. Previous experience with ML had
-previously been at python.
+A [project](https://github.com/OverCry/card-scanner) to try out TensorFlow.js and Tesseract.js. Previous experience with
+ML had previously been at python.
 
 # Table Of Contents
 
-1. [Setup](#Setup)
-2. [Main Tools](#Main-Tools)
-3. [Deployment/Consistancy](#Deployment/Consistancy)
+1. [Setup](#setup)
+2. [Main Tools](#main-tools)
+   1. [TensorFlow](#tensorflow)
+   2. [Tesseract](#tesseract)
+3. [Deployment/Consistancy](#deployment/consistancy)
    1. [gh-pages](#gh-pages)
    2. [husky](#husky)
    3. [craco](#craco)
-4. [User Styling](#User-Styling)
+4. [User Styling](#user-styling)
    1. [@inquirer/prompts](#@inquirer/prompts)
    2. [chalk](#chalk)
 
@@ -30,10 +32,24 @@ To start:
 2. Update `interpreter` in `scannerAliases.sh`
 3. Run `npm install` to set up the project
 
-### Terminal Commands
+# Main Tools
 
-TBD: Add script into postinstall to add script into `.zshrc`. To enable `Card Scanner` command to trigger terminal
-script which will use `@inquirer/prompts`.
+## [TensorFlow](https://www.tensorflow.org/)
+
+I had originally intended to use TensorFlow to create a MLM, which that can be used to calculate... something? I
+honestly became lost on how this would work. At the very least, it was something new that I tried.
+
+I refered/followed this [article](https://codezup.com/implementing-machine-learning-react-apps/) to see how TensorFlow
+gets implemented, and if it would work for my purpose (spoilers, it does not)
+
+One interesting thing I saw was to generate your own JSON representation of your MLM that you can
+[download/load](https://www.tensorflow.org/js/guide/save_load) so that you don't `train` your MLM every time
+
+It was also interesting to see that, using two arrays that are exactly double in difference, did not result in a perfect
+match. I imagine this to be due to the MLM's inability to extrapolate patterns, as the number I had provided was beyond
+the initial data set I used when `training` it
+
+## [Tesseract]()
 
 # Deployment/Consistancy
 
