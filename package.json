@@ -23,15 +23,36 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "typescript": "tsc --project tsconfig.json --noEmit",
+    "lint-staged": "lint-staged",
     "eject": "craco eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "postinstall": "sh ./scripts/setup.sh",
+    "options": "ts-node ./scripts/Menu.mjs",
+    "updateAlias": "npm run postinstall"
+  },
+  "lint-staged": {
+    "*.{js, jsx,ts,tsx}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
+    ]
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+      "plugin:react/recommended",
+      "plugin:react/jsx-runtime"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "rules": {
+      "react/react-in-jsx-scope": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -47,6 +68,14 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "gh-pages": "^6.3.0"
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "gh-pages": "^6.3.0",
+    "globals": "^16.5.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
+    "typescript-eslint": "^8.51.0"
   }
 }

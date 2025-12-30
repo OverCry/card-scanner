@@ -1,6 +1,7 @@
 # [Card Scanner](https://github.com/OverCry/card-scanner)
 
-A [project](https://github.com/OverCry/card-scanner) to try out TenserFlow.js. Previous experience with ML had previously been at python.
+A [project](https://github.com/OverCry/card-scanner) to try out TenserFlow.js. Previous experience with ML had
+previously been at python.
 
 # Table Of Contents
 
@@ -31,8 +32,8 @@ To start:
 
 ### Terminal Commands
 
-TBD: Add script into postinstall to add script into `.zshrc`. To enable `Card Scanner` command to trigger terminal script
-which will use `@inquirer/prompts`.
+TBD: Add script into postinstall to add script into `.zshrc`. To enable `Card Scanner` command to trigger terminal
+script which will use `@inquirer/prompts`.
 
 # Deployment/Consistancy
 
