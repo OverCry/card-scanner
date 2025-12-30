@@ -1,46 +1,176 @@
-# Getting Started with Create React App
+# [Card Scanner](https://github.com/OverCry/card-scanner)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A [project](https://github.com/OverCry/card-scanner) to try out TenserFlow.js. Previous experience with ML had previously been at python.
 
-## Available Scripts
+# Table Of Contents
 
-In the project directory, you can run:
+1. [Setup](#Setup)
+2. [Main Tools](#Main-Tools)
+3. [Deployment/Consistancy](#Deployment/Consistancy)
+   1. [gh-pages](#gh-pages)
+   2. [husky](#husky)
+   3. [craco](#craco)
+4. [User Styling](#User-Styling)
+   1. [@inquirer/prompts](#@inquirer/prompts)
+   2. [chalk](#chalk)
 
-### `npm start`
+# Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The current project is currently set up with:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- OS: `window`
+- Terminal: `bash`
+- node: `v20.17.0`
+- typescript: `5.6.2`
 
-### `npm test`
+To start:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Update `setup.sh` variables
+2. Update `interpreter` in `scannerAliases.sh`
+3. Run `npm install` to set up the project
 
-### `npm run build`
+### Terminal Commands
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+TBD: Add script into postinstall to add script into `.zshrc`. To enable `Card Scanner` command to trigger terminal script
+which will use `@inquirer/prompts`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Deployment/Consistancy
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## [gh-pages](https://www.npmjs.com/package/gh-pages)
 
-### `npm run eject`
+One of the things this repo is experimenting with is the package `gh-pages`, which has been suggested for deploying
+React-based projects as a GitHub page
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Steps
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Install the package (using your preferred package manager)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+npm install gh-pages --save-dev
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. Setup home directory in `package.json`
 
-## Learn More
+```
+"homepage": "https://<username>.github.io/<projectname>
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For this particular case, it becomes `https://overcry.github.io/card-scanner/`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Add <b>predeploy</b> and <b>deploy</b> scripts in `package.json`
+
+```
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+```
+
+4. When ready, check with `npm run build`
+5. When successful, deploy with `npm run deploy`
+
+## [husky](https://typicode.github.io/husky/)
+
+This repo use Husky, which was something I spent some time implementing on my work repo. Personally, I always find that
+the steps I've used in the past will end up failing in some way. However, I have found the experience using it worth the
+effort in figuring out how to implement Husky into the particular project structure.
+
+These particular steps were done with reference to this
+[guide](https://dev.to/shashwatnautiyal/complete-guide-to-eslint-prettier-husky-and-lint-staged-fh9)
+
+### Steps
+
+1. Install relevant packages (using your preferred package manager)
+
+```
+npm init @eslint/config
+npm i -D husky lint-staged prettier eslint-config-prettier
+```
+
+2. Add `.prettierrc`, `.eslintignore`, and `prettierignore` into the root director
+
+3. Add files to ignore (node_modules, etc.) into the `*ignore` files prettier settings into `.prettierrc`. A sample
+   would be
+
+```
+{
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "jsxBracketSameLine": false,
+  "jsxSingleQuote": true,
+  "printWidth": 120,
+  "proseWrap": "always",
+  "quoteProps": "as-needed",
+  "requirePragma": false,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false
+}
+```
+
+4. Initialize husky with `npx husky-init`
+
+5. In `package.json`, add `"lint-staged": "lint-staged"` as a script, as well as
+
+```
+  "lint-staged": {
+    "*.{js, jsx,ts,tsx}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+```
+
+into the file as well
+
+6. Edit `.husky/pre-commit` and change the command to `npm run lint-staged`
+
+## [craco](https://www.npmjs.com/package/@craco/craco)
+
+I tried using craco as I wanted to try using alias for my imports, and from doing some research and asking around, it
+seemed like the default `react-scripts` no longer
+[supported such functionality](https://github.com/facebook/create-react-app/issues/12047#issuecomment-1214344699).
+
+### Steps
+
+1. Install the package with
+
+```
+npm i -D @craco/craco
+```
+
+2. Change the start/build/test scripts in `package.json` to use `craco` rather than `react-scripts`
+
+3. Set up a basic `craco.config.ts` file to define the alias we wish to use (which also needs to be replicated in the
+   `tsconfig.json` for the alias to function)
+
+## [@inquirer/prompts](https://www.npmjs.com/package/@inquirer/prompts)
+
+Install using:
+
+```
+npm i @inquirer/prompts
+```
+
+I saw this package being used to beautify the terminal with options. This will allow users to simplify commands that are
+executed via terminal.
+
+This package also allows descriptions to be added directly into the terminal, so that even if the developer forgets what
+the option represents, they can easily see what it represents
+
+## [chalk](https://www.npmjs.com/package/chalk)
+
+Install using:
+
+```
+npm i chalk
+```
+
+This package allows colours to appear on terminal. This allows emphasis on certain aspects on teh terminal. This is
+being used in conjunction with `@inquirer/prompts` to improve the terminal experience
